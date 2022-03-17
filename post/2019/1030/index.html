@@ -15,9 +15,9 @@
     
 
     
-    <meta name="title" content="云招聘" />
-    <meta property="og:title" content="云招聘" />
-    <meta property="twitter:title" content="云招聘" />
+    <meta name="title" content="Forsaken Mail创建临时邮箱系统| 手把手教程" />
+    <meta property="og:title" content="Forsaken Mail创建临时邮箱系统| 手把手教程" />
+    <meta property="twitter:title" content="Forsaken Mail创建临时邮箱系统| 手把手教程" />
     
 
     
@@ -34,9 +34,9 @@
     <meta name="keyword"  content="Cepher, Gopher, 云存储, 云原生, Kubernetes">
     <link rel="shortcut icon" href="/img/favicon/favicon.ico">
 
-    <title>云招聘-Seayuns 博客 | Seayuns Blog</title>
+    <title>Forsaken Mail创建临时邮箱系统| 手把手教程-Seayuns 博客 | Seayuns Blog</title>
 
-    <link rel="canonical" href="/jd/">
+    <link rel="canonical" href="/post/2019/1030/">
 
     <link rel="stylesheet" href="/css/iDisqus.min.css"/>
 
@@ -161,8 +161,12 @@
                 <div class="post-heading">
                     <div class="tags">
                         
+                        <a class="tag" href="/tags/docker" title="“Docker”">
+                            “Docker”
+                        </a>
+                        
                     </div>
-                    <h1>云招聘</h1>
+                    <h1>Forsaken Mail创建临时邮箱系统| 手把手教程</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         
@@ -171,9 +175,9 @@
                                     SeaYuns Space
                              
                             on 
-                            Wednesday, August 12, 2020
+                            Tuesday, October 29, 2019
                             
-                                <span id="/jd/" class="leancloud_visitors meta_data_item" data-flag-title="">
+                                <span id="/post/2019/1030/" class="leancloud_visitors meta_data_item" data-flag-title="">
     <span class="post-meta-item-icon">
       <span class="octicon octicon-eye"></span> 
     </span>
@@ -331,7 +335,99 @@ $(function() {
                 post-container">
 
                 
-                
+                <h2 id="场景需求">场景需求</h2>
+<ul>
+<li>不需要长时间使用的邮箱</li>
+<li>需要大量创建临时邮箱</li>
+<li>使用匿名邮箱</li>
+</ul>
+<h2 id="环境说明">环境说明</h2>
+<ul>
+<li>
+<p>**<code> </code>Forsaken Mail<code>是一个临时邮箱系统，可以供任何人接受邮件，即收即毁，支持自定义邮箱地址前缀，这里就说下</code>Docker<code>和</code>NPM`两种安装教程，任选一种即可，有兴趣或者有需求的可以玩玩。</p>
+</li>
+<li>
+<p>**Github地址：**<a href="https://github.com/denghongcai/forsaken-mail">https://github.com/denghongcai/forsaken-mail</a></p>
+</li>
+</ul>
+<h2 id="开启25-跟3000端口">开启25 跟3000端口</h2>
+<ul>
+<li>发工单开 25 跟 3000端口</li>
+<li>宝塔面板放行25 跟 3000端口</li>
+<li>运营商（xx云等）到安全组开启机可</li>
+<li>国外VSP（如xx工等） 一般不用开</li>
+</ul>
+<h2 id="安装docker环境">安装Docker环境</h2>
+<p>Docker 官网 <a href="https://docs.docker.com/install/linux/docker-ce/centos/"> 官网安装教程</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">#CentOS <span style="color:#bd93f9">6</span>
+rpm <span style="color:#ff79c6">-</span>iUvh http:<span style="color:#6272a4">//dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+</span><span style="color:#6272a4"></span>yum update <span style="color:#ff79c6">-</span>y
+yum <span style="color:#ff79c6">-</span>y install docker<span style="color:#ff79c6">-</span>io
+service docker start
+chkconfig docker on
+
+#CentOS <span style="color:#bd93f9">7</span>、Debian、Ubuntu
+curl <span style="color:#ff79c6">-</span>sSL https:<span style="color:#6272a4">//get.docker.com/ | sh
+</span><span style="color:#6272a4"></span>systemctl start docker
+systemctl enable docker
+</code></pre></div><h2 id="docker-运行-forsaken-mail-镜像">Docker 运行 <strong>Forsaken Mail</strong> 镜像</h2>
+<pre tabindex="0"><code class="language-goang" data-lang="goang">​`````` docker run --name forsaken-mail -d -p 25:25 -p 3000:3000 denghongcai/forsaken-mail 
+</code></pre><p>
+  <img src="https://github.com/Wxiaote/cloudimg/blob/master/2019/20191115220815.png?raw=true" alt="image-20191115211800295">
+
+</p>
+<h4 id="注意可能会出现端口25被占用">注意：可能会出现端口25被占用</h4>
+<pre tabindex="0"><code class="language-goalng" data-lang="goalng">##找出占用端口程序PID
+$ netstat -anp |grep 25
+##关闭该程序
+$ kill -9 PID
+## 重新运行Docker 镜像
+docker start ID/name
+</code></pre><p>
+  <img src="https://github.com/Wxiaote/cloudimg/blob/master/2019/20191115220831.png?raw=true" alt="image-20191115211850165">
+
+</p>
+<p>
+  <img src="https://github.com/Wxiaote/cloudimg/raw/master/2019/20191115220859.png" alt="image-20191115211908873">
+
+</p>
+<h2 id="使用-域名-代替-ip">使用 域名 代替 IP</h2>
+<p>做到前面这一步已经可以通过  VSP_IP :3000 来访问，但是不能通过 域名：3000 进行访问</p>
+<p>此时就应该进行域名解析——登录你的域名管理。</p>
+<ul>
+<li>一级域名解析</li>
+</ul>
+<p>需要添加以下<code>2</code>条解析记录。 了解MX记录 ， A 记录可参考上一篇 <a href="https://www.cnblogs.com/xiaote/p/11856484.html">域名解析</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">#MX记录， xx.com 是你买的域名 mx 不要更改
+xx.com    MX   <span style="color:#bd93f9">10</span>     mx.xx.com
+#A记录 
+mx.xx.com   A   服务器IP
+</code></pre></div><ul>
+<li>其实如果xx.com 被你用了的话，就需要使用 二级域名解析(比如 mail.xx.com)</li>
+</ul>
+<pre tabindex="0"><code class="language-goalng" data-lang="goalng">#CNAME记录
+mail         CNAME     @ 
+#A记录 
+mail.xx.com   A   服务器IP
+</code></pre><h2 id="配置https访问">配置Https访问</h2>
+<p>如果还不满足使用<code>http://mx.xx.com:3000</code>，或者想使用<code>Https</code>域名访问主界面，那我们可以使用<code>Caddy</code>反代。这里所使用的域名只能是上面设置<code>MX</code>记录的<code>xx.com</code>，并提前将域名<code>A</code>记录解析到服务器<code>IP</code>。</p>
+<p><strong>1、安装Caddy</strong>
+使用命令：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">wget <span style="color:#ff79c6">-</span>N <span style="color:#ff79c6">--</span>no<span style="color:#ff79c6">-</span>check<span style="color:#ff79c6">-</span>certificate https:<span style="color:#6272a4">//raw.githubusercontent.com/ToyoDAdoubiBackup/doubi/master/caddy_install.sh &amp;&amp; chmod +x caddy_install.sh &amp;&amp; bash caddy_install.sh
+</span><span style="color:#6272a4"></span>#备用地址
+wget <span style="color:#ff79c6">-</span>N <span style="color:#ff79c6">--</span>no<span style="color:#ff79c6">-</span>check<span style="color:#ff79c6">-</span>certificate https:<span style="color:#6272a4">//www.moerats.com/usr/shell/Caddy/caddy_install.sh &amp;&amp; chmod +x caddy_install.sh &amp;&amp; bash caddy_install.sh
+</span><span style="color:#6272a4"></span><span style="color:#bd93f9">2</span>、配置Caddy
+</code></pre></div><p><strong>2、配置Caddy</strong></p>
+<pre tabindex="0"><code class="language-goalng" data-lang="goalng">#以下全部内容是一个整体，请修改2个域名后一起复制到SSH运行！
+echo &quot;xx.com {
+ gzip
+ tls admin@moerats.com
+ proxy / mx.xx.com:3000
+}&quot; &gt; /usr/local/caddy/Caddyfile
+</code></pre><p><strong>3、启动Caddy</strong></p>
+<pre tabindex="0"><code class="language-goalng" data-lang="goalng">/etc/init.d/caddy start
+</code></pre><p>最后可以打开<code>https://xx.com</code>访问，使用Docker应用还是容易的。</p>
+
 
                 
 
@@ -339,10 +435,15 @@ $(function() {
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/about/" data-toggle="tooltip" data-placement="top" title="关于博主">&larr;
+                        <a href="/post/2019/1029/" data-toggle="tooltip" data-placement="top" title="Golang 类型定义总结手册| 面试最基础">&larr;
                             上一篇</a>
                     </li>
                     
+                    
+                    <li class="next">
+                        <a href="/post/2019/1111/" data-toggle="tooltip" data-placement="top" title="域名解析 | A记录 ，CNAME，MX，NS 你懂了吗">下一篇
+                            &rarr;</a>
+                    </li>
                     
                 </ul>
                 

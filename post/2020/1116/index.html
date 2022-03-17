@@ -15,9 +15,9 @@
     
 
     
-    <meta name="title" content="云招聘" />
-    <meta property="og:title" content="云招聘" />
-    <meta property="twitter:title" content="云招聘" />
+    <meta name="title" content="archlinux 入坑|如何从零安装arclinux" />
+    <meta property="og:title" content="archlinux 入坑|如何从零安装arclinux" />
+    <meta property="twitter:title" content="archlinux 入坑|如何从零安装arclinux" />
     
 
     
@@ -34,9 +34,9 @@
     <meta name="keyword"  content="Cepher, Gopher, 云存储, 云原生, Kubernetes">
     <link rel="shortcut icon" href="/img/favicon/favicon.ico">
 
-    <title>云招聘-Seayuns 博客 | Seayuns Blog</title>
+    <title>archlinux 入坑|如何从零安装arclinux-Seayuns 博客 | Seayuns Blog</title>
 
-    <link rel="canonical" href="/jd/">
+    <link rel="canonical" href="/post/2020/1116/">
 
     <link rel="stylesheet" href="/css/iDisqus.min.css"/>
 
@@ -161,8 +161,12 @@
                 <div class="post-heading">
                     <div class="tags">
                         
+                        <a class="tag" href="/tags/archlinux" title="archlinux">
+                            archlinux
+                        </a>
+                        
                     </div>
-                    <h1>云招聘</h1>
+                    <h1>archlinux 入坑|如何从零安装arclinux</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         
@@ -171,9 +175,9 @@
                                     SeaYuns Space
                              
                             on 
-                            Wednesday, August 12, 2020
+                            Monday, November 16, 2020
                             
-                                <span id="/jd/" class="leancloud_visitors meta_data_item" data-flag-title="">
+                                <span id="/post/2020/1116/" class="leancloud_visitors meta_data_item" data-flag-title="">
     <span class="post-meta-item-icon">
       <span class="octicon octicon-eye"></span> 
     </span>
@@ -331,7 +335,217 @@ $(function() {
                 post-container">
 
                 
-                
+                <h1 id="安装系统之前">安装系统之前</h1>
+<h2 id="验证">验证</h2>
+<h3 id="验证安装包">验证安装包</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ gpg --keyserver-options auto-key-retrieve --verify archlinux-version-x86_64.iso.sig
+$ pacman-key -v archlinux-version-x86_64.iso.sig
+</code></pre></div><h3 id="设置键盘一般不设置">设置键盘（一般不设置）</h3>
+<pre tabindex="0"><code> ls /usr/share/kbd/keymaps/**/*.map.gz
+ # loadkeys de-latin1
+</code></pre><h3 id="判断机器是否是可以安装-archlinux">判断机器是否是可以安装 Archlinux</h3>
+<pre tabindex="0"><code># ls /sys/firmware/efi/efivars  //文件夹下是否有固件，有则是efi
+</code></pre><h2 id="安装前设置">安装前设置</h2>
+<h3 id="网络设置">网络设置</h3>
+<pre tabindex="0"><code>##链接WIFI 
+#iwctl工具 
+
+# ip link或
+设备 device list
+
+station ... scanning
+station ... get-network
+
+# nmcli 第二个工具（nmtui）比较简单
+</code></pre><h3 id="系统分区">系统分区</h3>
+<pre tabindex="0"><code>#分区 cfdisk 或者fdisk
+fdisk -l
+cfdisvk  /dev/sda
+
+#格式化
+mkfs.vfat
+mkfs.ext4
+mkswap
+
+#挂载分区
+mount  /dev/sda1      /mnt
+mount /dev/sdb1  /mnt/root
+</code></pre><p>分区推荐（来自官网）</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Mount point</th>
+<th style="text-align:center">Partition</th>
+<th style="text-align:center"><a href="https://en.wikipedia.org/wiki/Partition_type">Partition type</a></th>
+<th style="text-align:center">Suggested size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>[SWAP]</code></td>
+<td style="text-align:center"><code>/dev/*swap_partition*</code></td>
+<td style="text-align:center">Linux swap</td>
+<td style="text-align:center">More than 512 MiB</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>/mnt</code></td>
+<td style="text-align:center"><code>/dev/*root_partition*</code></td>
+<td style="text-align:center">Linux</td>
+<td style="text-align:center">Remainder of the device</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Mount point</th>
+<th style="text-align:center">Partition</th>
+<th style="text-align:center"><a href="https://en.wikipedia.org/wiki/GUID_Partition_Table#Partition_type_GUIDs">Partition type</a></th>
+<th style="text-align:center">Suggested size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>/mnt/boot</code> or <code>/mnt/efi</code></td>
+<td style="text-align:center"><code>/dev/*efi_system_partition*</code></td>
+<td style="text-align:center"><a href="https://wiki.archlinux.org/index.php/EFI_system_partition">EFI system partition</a></td>
+<td style="text-align:center">At least 260 MiB</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>[SWAP]</code></td>
+<td style="text-align:center"><code>/dev/*swap_partition*</code></td>
+<td style="text-align:center">Linux swap</td>
+<td style="text-align:center">More than 512 MiB</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>/mnt</code></td>
+<td style="text-align:center"><code>/dev/*root_partition*</code></td>
+<td style="text-align:center">Linux x86-64 root (/)</td>
+<td style="text-align:center">Remainder of the device</td>
+</tr>
+</tbody>
+</table>
+<h3 id="安装装机软件">安装装机软件</h3>
+<pre tabindex="0"><code>pacstrap  /mnt  base base-devel linux linux-firmware networkmanager vim intel-ucode(amd-ucode) git
+</code></pre><h3 id="生成分区表">生成分区表</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">genfstab  -U  /mnt &gt;&gt; /mnt/etc/fstab
+</code></pre></div><h3 id="进入系统安装">进入系统安装</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">arch-chroot  /mnt/
+</code></pre></div><h1 id="系统安装">系统安装</h1>
+<h3 id="语言设置">语言设置</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4">#编辑系统语言</span>
+vim /etc/locale.grn
+------------------------
+<span style="color:#8be9fd;font-style:italic">LANG</span><span style="color:#ff79c6">=</span>en_US.UTF-8
+<span style="color:#8be9fd;font-style:italic">LANG</span><span style="color:#ff79c6">=</span>zh_CN.UTF-8
+
+<span style="color:#6272a4">#设置默认语言</span>
+<span style="color:#8be9fd;font-style:italic">echo</span> <span style="color:#8be9fd;font-style:italic">LANG</span><span style="color:#ff79c6">=</span>en_US.UTF-8 &gt; /etc/locale.conf
+</code></pre></div><h4 id="时间设置">时间设置</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4">#设置时区</span>
+ln -sf /user/share/zonninfo/Asia/shnaghai /etc/lcoaltime （或者timedatectl set-timezone Asia/Shanghai）
+<span style="color:#6272a4"># 网络时间</span>
+timedatectl set-ntp <span style="color:#8be9fd;font-style:italic">true</span>
+<span style="color:#6272a4">#时钟锁</span>
+hwclock --systoshc
+</code></pre></div><h4 id="键盘设置">键盘设置</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4">#设置键盘 可不设</span>
+/etc/vconsole.conf
+<span style="color:#8be9fd;font-style:italic">KEYMAP</span><span style="color:#ff79c6">=</span>de-latin1
+</code></pre></div><h4 id="电脑名称设置">电脑名称设置</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#8be9fd;font-style:italic">echo</span> myhostname &gt; /etc/hostname  
+编辑/etc/hosts
+--------------------------------------
+127.0.0.1	localhost
+::1		localhost
+127.0.1.1	myhostname.localdomain	myhostname
+</code></pre></div><h3 id="用户设置">用户设置</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">useradd -m wxiaote
+passwd
+</code></pre></div><h3 id="sudo-权限">sudo 权限</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4">#开启wheel后</span>
+usermod -aG wheel, audio,video,storage,optical wxiaote
+</code></pre></div><h3 id="网络自启">网络自启</h3>
+<pre tabindex="0"><code>systemctl enable NetworkManager
+</code></pre><h3 id="设置efi引导">设置efi引导</h3>
+<pre tabindex="0"><code>pacman -S grub efibootmgr
+
+#modprobe dm-mod（内核更好检测磁盘）
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">grub-install  --target<span style="color:#ff79c6">=</span>x86_64-efi --efi-directory<span style="color:#ff79c6">=</span>boot --bootloaer-id<span style="color:#ff79c6">=</span>GRUB （efi安装）
+grub-install --no-floppy --recheck --debug /dev/sda （bios 安装）
+
+grub-mkconfig -o /boot/grub/grub.cfg
+</code></pre></div><h3 id="退出">退出</h3>
+<pre tabindex="0"><code>exit
+umount -R /mnt
+</code></pre><h1 id="软件安装">软件安装</h1>
+<h3 id="archlinuxcn--第三方软件源">archlinuxcn  第三方软件源</h3>
+<pre tabindex="0"><code>[archlinuxcn]
+Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch
+</code></pre><p>更新</p>
+<pre tabindex="0"><code>$ sudo pacman -Syu
+</code></pre><p>安装秘钥</p>
+<pre tabindex="0"><code>$ sudo pacman -S archlinuxcn-keyring
+</code></pre><p>​	如果报错，需要生成一个新的密钥环</p>
+<pre tabindex="0"><code>$ sudo pacman -Syu haveged
+$ systemctl start haveged
+$ systemctl enable haveged
+$ rm -rf /etc/pacman.d/gnupg
+$ sudo pacman-key --init
+$ sudo pacman-key --populate archlinux
+$ sudo pacman-key --populate archlinuxcn
+$ sudo pacman -S archlinuxcn-keyring
+</code></pre><h3 id="gnome界面安装">gnome界面安装</h3>
+<pre tabindex="0"><code>pacman -S gnome gnome-tweak-tool  gnome-extra gdm
+systemctl enable gdm
+</code></pre><h3 id="kde界面安装">KDE界面安装</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#6272a4"># 安装 xorg 服务</span>
+<span style="color:#6272a4"># xorg服务是linux桌面的硬件接口，所有的窗管都是x窗口的实现</span>
+$ pacman -S xorg xorg-server
+
+<span style="color:#6272a4"># 显卡</span>
+$ sudo pacman -S xf86-video-intel  <span style="color:#6272a4">#intel#</span>
+$ sudo pacman -S xf86-video-ati  <span style="color:#6272a4">#amd#</span>
+<span style="color:#6272a4">#输入设备</span>
+$ sudo pacman -S xf86-input-libinput
+$ sudo pacman -S xf86-input-synaptics  <span style="color:#6272a4">#触摸板驱动#</span>
+<span style="color:#6272a4">#登录管理器</span>
+$ sudo pacman -S sddm sddm-kcm
+$ systemctl <span style="color:#8be9fd;font-style:italic">enable</span> sddm
+<span style="color:#6272a4">#KDE</span>
+$ sudo pacman -S plasma plasma-wayland-session kde-applications
+<span style="color:#6272a4">#声音管理器</span>
+ sudo pacman -S alsa-utils pulseaudio pulseaudio-alsa
+<span style="color:#6272a4">#输入法</span>
+$ sudo pacman -S fcitx fcitx-im fcitx-configtool fcitx-cloudpinyin kcm-fcitx fcitx-pinyin
+<span style="color:#6272a4">#配置输入法</span>
+$ vim /home/myusername/.xprofile
+------
+<span style="color:#8be9fd;font-style:italic">export</span> <span style="color:#8be9fd;font-style:italic">GTK_IM_MODULE</span><span style="color:#ff79c6">=</span>fcitx
+<span style="color:#8be9fd;font-style:italic">export</span> <span style="color:#8be9fd;font-style:italic">QT_IM_MODULE</span><span style="color:#ff79c6">=</span>fcitx
+<span style="color:#8be9fd;font-style:italic">export</span> <span style="color:#8be9fd;font-style:italic">XMODIFIERS</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;@im=fcitx&#34;</span>
+
+解决左边SHIFT键无法切换中英文
+<span style="color:#8be9fd;font-style:italic">右键Fcitx托盘</span> <span style="color:#ff79c6">=</span>&gt; <span style="color:#8be9fd;font-style:italic">配置</span> <span style="color:#ff79c6">=</span>&gt; <span style="color:#8be9fd;font-style:italic">全局配置</span> <span style="color:#ff79c6">=</span>&gt; <span style="color:#8be9fd;font-style:italic">勾选显示高级设置</span> <span style="color:#ff79c6">=</span>&gt; 不勾选只在额外切换键取消激活后才是用它进行切换，且勾选启用输入法间切换
+
+解决中文输入时英文全角问题
+<span style="color:#8be9fd;font-style:italic">右键Fcitx托盘</span> <span style="color:#ff79c6">=</span>&gt; <span style="color:#8be9fd;font-style:italic">配置</span> <span style="color:#ff79c6">=</span>&gt; <span style="color:#8be9fd;font-style:italic">附加组件配置</span> <span style="color:#ff79c6">=</span>&gt; <span style="color:#8be9fd;font-style:italic">勾选显示高级设置</span> <span style="color:#ff79c6">=</span>&gt; 不勾选全角字符
+
+解决云拼音不显示问题
+<span style="color:#8be9fd;font-style:italic">右键Fcitx托盘</span> <span style="color:#ff79c6">=</span>&gt; <span style="color:#8be9fd;font-style:italic">配置</span> <span style="color:#ff79c6">=</span>&gt; 附加组件配置
+找到云拼音支持，点击它右方的设置按钮，把谷歌设置成百度
+</code></pre></div><h3 id="文件管理">文件管理</h3>
+<pre tabindex="0"><code>$ sudo pacman -S nautilus    //ubuntu自带文件管理器
+$ sudo pacman -S ranger   //终端文件管理器
+</code></pre><h3 id="aur助手">Aur助手</h3>
+<pre tabindex="0"><code>$ sudo pacman -S yay
+</code></pre><h3 id="下拉式终端">下拉式终端</h3>
+<pre tabindex="0"><code> sudo pacman -S yakuake   //并尽可能安装可选依赖
+</code></pre><h3 id="ssh-sever">ssh-sever</h3>
+<pre tabindex="0"><code>sudo pacman -S openssh
+</code></pre><h3 id="谷歌浏览器">谷歌浏览器</h3>
+<pre tabindex="0"><code>$ sudo pacman -S google-chrome   //并尽可能安装可选依赖
+</code></pre>
 
                 
 
@@ -339,10 +553,15 @@ $(function() {
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/about/" data-toggle="tooltip" data-placement="top" title="关于博主">&larr;
+                        <a href="/post/2020/0218/" data-toggle="tooltip" data-placement="top" title="phxpaxos 项目的演示和实验">&larr;
                             上一篇</a>
                     </li>
                     
+                    
+                    <li class="next">
+                        <a href="/post/2020/1222/" data-toggle="tooltip" data-placement="top" title="archlinux 使用| 软件推荐">下一篇
+                            &rarr;</a>
+                    </li>
                     
                 </ul>
                 
