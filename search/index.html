@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-	<meta name="generator" content="Hugo 0.89.2" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -35,9 +34,9 @@
     <meta name="keyword"  content="Cepher, Gopher, 云存储, 云原生, Kubernetes">
     <link rel="shortcut icon" href="/img/favicon/favicon.ico">
 
-    <title>SeaYuns Space-Seayuns 博客 | Seayuns Blog</title>
+    <title>Searches-Seayuns 博客 | Seayuns Blog</title>
 
-    <link rel="canonical" href="/">
+    <link rel="canonical" href="/search/">
 
     <link rel="stylesheet" href="/css/iDisqus.min.css"/>
 
@@ -168,7 +167,6 @@
 
 
 
-  
 <div class="container">
     <div class="row">
         
@@ -181,146 +179,114 @@
             post-container
         ">
             
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch-theme-algolia.min.css">
 
-<div class="post-preview">
-    <a href="http://seayuns.github.io/post/2022/0316/">
-        <h2 class="post-title">
-            Ceph 系列 | cephadm 容器部署存储平台
-        </h2>
-	
-        <div class="post-content-preview">
-	
-            暂时还未填坑
- 部署MON节点 部署OSD节点 添加其他服务2 参考文章 ceph 官网文档
-       
-        </div>
-    </a>
-    <p class="post-meta">
-    
-        Posted bySeaYuns Space  Wednesday, March 16, 2022
-        
-        
-    
-    </p>
+<div id="search-searchbar"></div>
+ <div class="post-list" id="search-hits">
+ </div>
 
-</div>
-<hr>
+<script>
+const search = instantsearch({
+  appId: 'QZ89V03OQB',
+  indexName: 'blog',
+  apiKey: '01916a6300cce2f431bdb54902688bb5'
+});
 
-<div class="post-preview">
-    <a href="http://seayuns.github.io/post/2022/0215/">
-        <h2 class="post-title">
-            Ceph 系列 | 手动部署传统Ceph服务 （以12版本安装为例子）
-        </h2>
-	
-        <div class="post-content-preview">
-	
-            暂时还未填坑
- 部署MON节点 部署OSD节点 添加其他服务2 参考文章 ceph 官网文档
-       
-        </div>
-    </a>
-    <p class="post-meta">
-    
-        Posted bySeaYuns Space  Tuesday, February 15, 2022
-        
-        
-    
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="http://seayuns.github.io/post/2020/1222/">
-        <h2 class="post-title">
-            archlinux 使用| 软件推荐
-        </h2>
-	
-        <div class="post-content-preview">
-	
-            笔记软件
- Typora Obsidian  代码软件
- VScode Goland  会议软件
- 腾讯会议  视频播放器
- mpv  桌面录屏
- Obs  邮箱客户端
- MailSpring  RSS 订阅
- QuiteRSS  
-       
-        </div>
-    </a>
-    <p class="post-meta">
-    
-        Posted byseayuns  Tuesday, December 22, 2020
-        
-        
-    
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="http://seayuns.github.io/post/2020/1116/">
-        <h2 class="post-title">
-            archlinux 入坑|如何从零安装arclinux
-        </h2>
-	
-        <div class="post-content-preview">
-	
-            安装系统之前 验证 验证安装包 $ gpg --keyserver-options auto-key-retrieve --verify archlinux-version-x86_64.iso.sig $ pacman-key -v archlinux-version-x86_64.iso.sig 设置键盘（一般不设置）  ls /usr/share/kbd/keymaps/**/*.map.gz # loadkeys de-latin1 判断机器是否是可以安装 Archlinux # ls /sys/firmware/efi/efivars //文件夹下是否有固件，有则是efi 安装前设置 网络设置 ##链接WIFI #iwctl工具 # ip link或 设备 device list station ... scanning station ... get-network # nmcli 第二个工具（nmtui）比较简单 系统分区 #分区 cfdisk 或者fdisk fdisk -l cfdisvk /dev/sda #格式化 mkfs.vfat mkfs.ext4 mkswap #挂载分区 mount /dev/sda1 /mnt mount /dev/sdb1 /mnt/root 分区推荐（来自官网）
-   Mount point Partition Partition type Suggested size     [SWAP] /dev/*swap_partition* Linux swap More than 512 MiB   /mnt /dev/*root_partition* Linux Remainder of the device       Mount point Partition Partition type Suggested size     /mnt/boot or /mnt/efi /dev/*efi_system_partition* EFI system partition At least 260 MiB   [SWAP] /dev/*swap_partition* Linux swap More than 512 MiB   /mnt /dev/*root_partition* Linux x86-64 root (/) Remainder of the device    安装装机软件 pacstrap /mnt base base-devel linux linux-firmware networkmanager vim intel-ucode(amd-ucode) git 生成分区表 genfstab -U /mnt &gt;&gt; /mnt/etc/fstab 进入系统安装 arch-chroot /mnt/ 系统安装 语言设置 #编辑系统语言 vim /etc/locale.
-       
-        </div>
-    </a>
-    <p class="post-meta">
-    
-        Posted bySeaYuns Space  Monday, November 16, 2020
-        
-        
-    
-    </p>
-
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="http://seayuns.github.io/post/2020/0218/">
-        <h2 class="post-title">
-            phxpaxos 项目的演示和实验
-        </h2>
-	
-        <div class="post-content-preview">
-	
-            linux环境配置 helloworld@Vostro:~/Downloads/automake-1.14$ uname -a Linux Vostro 5.3.0-40-generic #32~18.04.1-Ubuntu SMP Mon Feb 3 14:05:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux helloworld@Vostro:~$ cat /etc/lsb-release DISTRIB_ID=Ubuntu DISTRIB_RELEASE=18.04 DISTRIB_CODENAME=bionic DISTRIB_DESCRIPTION=&#34;Ubuntu 18.04.4 LTS&#34; 下载 phpaxos 源码 git clone https://github.com/Tencent/phxpaxos.git --recursive 下载过程中, 可能会报这样的错, 在运行git clone命令时很容易出现这个错误，这是下载的包太大，网速慢超时报错。
-git clone https://github.com/Tencent/phxpaxos.git --recursive ... git clone error RPC failed:curl 56 GnuTLS recv error (-54):Error in the pull function fatar: The remote end hung up unexpectedly fatal : early EOF fatal : index-pack failed .
-       
-        </div>
-    </a>
-    <p class="post-meta">
-    
-        Posted bySeaYuns Space  Tuesday, February 18, 2020
-        
-        
-    
-    </p>
-
-</div>
-<hr>
+const hitTemplate = function(hit) {
 
 
-            
+  
+  let date = '';
+  if (hit.date) {
+    date = moment.unix(hit.date).format('MMM D, YYYY');
+  }
+  let url = `${hit.url}#${hit.anchor}`;
+  const title = hit._highlightResult.title.value;
+
+  let breadcrumbs = '';
+  if (hit._highlightResult.headings) {
+    breadcrumbs = hit._highlightResult.headings.map(match => {
+      return `<span class="post-breadcrumb">${match.value}</span>`
+    }).join(' > ')
+  }
+
+  let content = "" ; 
+  if (hit._highlightResult.content){
+      content = hit._highlightResult.content.value;
+  }
+  else{
+      content = hit.summary;
+  }
 
 
-<ul class="pager">
-    
-    
-    <li class="next">
-        <a href="/page/2/">下一页 &rarr;</a>
-    </li>
-    
-</ul>
+  return `
+    <div class="post-item">
+      <span class="post-meta">${date}</span>
+      <h2><a class="post-link" href="${url}">${title}</a></h2>
+      <a href="${url}" class="post-breadcrumbs">${breadcrumbs}</a>
+      <div class="post-snippet">${content}</div>
+    </div>
+  `;
+}
 
+
+search.addWidget(
+  instantsearch.widgets.searchBox({
+    container: '#search-searchbar',
+    placeholder: 'Search into posts...',
+    poweredBy: true // This is required if you're on the free Community plan
+  })
+);
+
+search.addWidget(
+  instantsearch.widgets.hits({
+    container: '#search-hits',
+    templates: {
+      item: hitTemplate
+    }
+  })
+);
+
+search.start();
+</script>
+
+<style>
+.ais-search-box {
+  max-width: 100%;
+  margin-bottom: 15px;
+}
+.post-item {
+  margin-bottom: 30px;
+}
+.post-link .ais-Highlight {
+  color: #111;
+  font-style: normal;
+  text-decoration: underline;
+}
+.post-breadcrumbs {
+  color: #424242;
+  display: block;
+}
+.post-breadcrumb {
+  font-size: 18px;
+  color: #424242;
+}
+.post-breadcrumb .ais-Highlight {
+  font-weight: bold;
+  font-style: normal;
+}
+.post-snippet .ais-Highlight {
+  color: #2a7ae2;
+  font-style: normal;
+  font-weight: bold;
+}
+.post-snippet img {
+  display: none;
+}
+</style>
 
        	</div>
         
@@ -409,7 +375,7 @@ git clone https://github.com/Tencent/phxpaxos.git --recursive ... git clone erro
            <ul class="list-inline">
                
                <li>
-                   <a href='/index.xml' rel="alternate" type="application/rss+xml" title="SeaYuns Space" >
+                   <a href='/search/index.xml' rel="alternate" type="application/rss+xml" title="SeaYuns Space" >
                        <span class="fa-stack fa-lg">
                            <i class="fas fa-circle fa-stack-2x"></i>
                            <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
@@ -479,8 +445,6 @@ git clone https://github.com/Tencent/phxpaxos.git --recursive ... git clone erro
 
 
 
-
-
 <footer>
     <div class="container">
         <div class="row">
@@ -488,7 +452,7 @@ git clone https://github.com/Tencent/phxpaxos.git --recursive ... git clone erro
                 <ul class="list-inline text-center">
                    
                    <li>
-                       <a href='/index.xml' rel="alternate" type="application/rss+xml" title="SeaYuns Space" >
+                       <a href='/search/index.xml' rel="alternate" type="application/rss+xml" title="SeaYuns Space" >
                            <span class="fa-stack fa-lg">
                                <i class="fas fa-circle fa-stack-2x"></i>
                                <i class="fas fa-rss fa-stack-1x fa-inverse"></i>
